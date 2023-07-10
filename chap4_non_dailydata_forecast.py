@@ -35,10 +35,42 @@ fig = model.plot(forecast)
 plt.show()
 
 
+#%% sub-daily data
+data = pd.read_csv('data/divvy_hourly.csv')
+
+df = pd.DataFrame({'ds': pd.to_datetime(data['date']),
+                   'y': data['rides']}
+                  )
+
+#%%
+model = Prophet(seasonality_mode='multiplicative')
+model.fit(df)
+future = model.make_future_dataframe(periods=365*24, freq='h')
+
+forecast = model.predict(future)
+fig = model.plot(forecast)
+plt.show()
+fig2 = model.plot_components(forecast)
+plt.show()
 
 
+# %% using data with regular gaps
+# suppose that data was collected only b/T 8am and 6pm
+
+df = df[(df['ds'].dt.hour >= 8) & (df['ds'].dt.hour < 18)]
+
+model = Prophet(seasonality_mode='multiplicative')
+model.fit(df)
+future = model.make_future_dataframe(periods=365*24, freq='h')
+forecast = model.predict(future)
+fig = model.plot(forecast)
+plt.show()
+
+#%% zoom in on just 3 days
+fig = model.plot(forecast)
+plt.xlim(pd.to_datetime(['2018-08-01', '2018-08-04']))
+plt.ylim(-2000, 4000)
+plt.show()
 
 
-
-
-
+# %%
