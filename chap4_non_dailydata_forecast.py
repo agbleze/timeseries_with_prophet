@@ -74,3 +74,27 @@ plt.show()
 
 
 # %%
+future2 = future[(future['ds'].dt.hour >= 8) & 
+                 (future['ds'].dt.hour < 18)
+                 ]
+forecast2 = model.predict(future2)
+fig = model.plot(forecast2)
+plt.show()
+
+#%% ploting 3 days of forecast2
+fig = model.plot(forecast2, figsize=(10, 4))
+plt.xlim(['2018-08-01', '2018-08-04'])
+plt.ylim(-2000, 4000)
+plt.show()
+
+#%%
+from prophet.plot import plot_seasonality
+plot_seasonality(model, 'daily', figsize=(10, 3))
+plt.show()
+
+#%%
+
+
+
+
+# %%
