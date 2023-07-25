@@ -21,5 +21,21 @@ model.add_country_holidays(country_name='US')
 #%%
 model.fit(df)
 
+#%%
+
+future = model.make_future_dataframe(periods=365)
+forecast = model.predict(future)
+fig = model.plot(forecast)
+plt.show()
+
+#%%
+
+fig2 = model.plot_components(forecast)
+plt.show()
+
+# %%
+model.train_holiday_names
 
 
+
+# %%
